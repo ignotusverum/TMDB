@@ -78,14 +78,14 @@ class HomeViewController: UIViewController, Themed, UICollectionViewDelegateFlow
     }
     
     func bindViewModel() {
-        let viewWillAppear = rx.sentMessage(#selector(UIViewController.viewWillAppear(_:)))
-              .toVoid()
+        let viewDidAppear = rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
+            .toVoid()
         
           let pull = collectionView.refreshControl!.rx
             .controlEvent(.valueChanged)
             .toVoid()
         
-        let reload = Observable.merge(viewWillAppear,
+        let reload = Observable.merge(viewDidAppear,
                                       pull)
             .map { _ in  HomePageUIAction.reload}
         
