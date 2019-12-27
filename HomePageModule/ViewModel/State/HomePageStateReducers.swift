@@ -12,10 +12,10 @@ class HomePageStateReducers {
         
         switch (state, action) {
         case (.emptyView, .reload),
-             (.emptyView, .nextPage): return .loading(page: 0,
+             (.emptyView, .nextPage): return .loading(page: 1,
                                                       whileInState: .emptyView)
         case (let .shows(movies, page), .reload):
-            return .loading(page: 0,
+            return .loading(page: 1,
                             whileInState: .shows(movies,
                                                  page: page))
         case (let .shows(movies, page), .nextPage):
