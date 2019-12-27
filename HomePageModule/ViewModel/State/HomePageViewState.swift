@@ -8,7 +8,7 @@
 
 enum HomeOverlayCases: CaseAccessible {
     case emptyView
-    case shows([Movie], page:  Int)
+    case shows([MovieListEntryModel], page:  Int)
     
     func toViewState() -> HomePageState {
         switch self {
@@ -20,7 +20,7 @@ enum HomeOverlayCases: CaseAccessible {
 
 enum HomePageState: CaseAccessible {
     case emptyView
-    case shows([Movie], page:  Int)
+    case shows([MovieListEntryModel], page:  Int)
     case error(Error, whileInState: HomeOverlayCases)
     case loading(page: Int, whileInState: HomeOverlayCases)
     

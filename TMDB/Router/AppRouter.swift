@@ -73,24 +73,24 @@ class TMDBNavigationController: UINavigationController {
 class AppRouter: Router {
     private(set) weak var viewControllersFactory: ViewControllersFactory?
     
-    let navBarController: UINavigationController
-    var topViewController: UIViewController { return navBarController }
+    let tabbarController: UITabBarController
+    var topViewController: UIViewController { return tabbarController }
     
     var disposeBag: DisposeBag = DisposeBag()
     
     init(withFactory viewControllersFactory: ViewControllersFactory) {
         self.viewControllersFactory = viewControllersFactory
-        navBarController = UINavigationController(
-            rootViewController: viewControllersFactory
-                .viewController(for: PresentableRoutingStep(
-                    withStep: .discover(),
-                    presentationMode: .none
-                ))
-        )
+        
+        let routingSteps: [ModuleRoutingStep] = [.movies(),
+                                                 .tvSeries()]
+        
+        tabbarController = UITabBarController()
+        tabbarController.viewControllers = routingSteps.map { viewControllersFactory.viewController(for: PresentableRoutingStep(withStep: $0,
+                                                                                                                                presentationMode: .none)) }
     }
 
     func rootViewController(forLaunchOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> UIViewController? {
-        return navBarController
+        return tabbarController
     }
     
     func handleShortcutItem(_ item: UIApplicationShortcutItem) { }

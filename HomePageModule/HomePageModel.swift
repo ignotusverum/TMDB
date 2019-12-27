@@ -7,11 +7,21 @@
 //
 
 protocol HomePageModel {
-    func getMovies(page: Int) -> Single<[Movie]>
+    func getData(page: Int) -> Single<[MovieListEntryModel]>
 }
 
-class HomeModel: HomePageModel {
-    func getMovies(page: Int) -> Single<[Movie]> {
-        TheMovieDBApi.shared.discoverPopularMovies(page: page)
+class HomeMoviesModel: HomePageModel {
+    func getData(page: Int) -> Single<[MovieListEntryModel]> {
+        TheMovieDBApi.shared
+            .discoverPopularMovies(page: page)
+            .map { $0 as [MovieListEntryModel] }
+    }
+}
+
+class HomeSeriesModel: HomePageModel {
+    func getData(page: Int) -> Single<[MovieListEntryModel]> {
+        TheMovieDBApi.shared
+            .discoverPopularTvSeries(page: page)
+            .map { $0 as [MovieListEntryModel] }
     }
 }

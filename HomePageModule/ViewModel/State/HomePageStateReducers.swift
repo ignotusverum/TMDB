@@ -63,8 +63,8 @@ class HomePageStateReducers {
     }
 }
 
-func showsState(oldList: [Movie],
-                newList: [Movie],
+func showsState(oldList: [MovieListEntryModel],
+                newList: [MovieListEntryModel],
                 page: Int) -> HomePageState {
     var finalMovies = oldList + newList
     if page == 1 {

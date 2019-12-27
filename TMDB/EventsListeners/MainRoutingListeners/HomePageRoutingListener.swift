@@ -14,7 +14,8 @@ class HomePageRoutingListener: ModuleEventsListener {
         self.router = router
     }
     
-    func listenEvents(from module: AnyEventsProducerModule, events: Observable<HomeEvents>) -> Bool {
+    func listenEvents(from module: AnyEventsProducerModule,
+                      events: Observable<HomeEvents>) -> Bool {
         events.capture(case: HomeEvents.movieSelected)
             .toRoutableObservable()
             .subscribe(onNext: { movie in
@@ -23,6 +24,6 @@ class HomePageRoutingListener: ModuleEventsListener {
             })
             .disposed(by: module.disposeBag)
 
-    return true
+        return true
     }
 }

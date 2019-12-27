@@ -8,8 +8,14 @@
 
 import RxDataSources
 
-extension Movie: IdentifiableType {
-    public var identity: Int64 { return id }
+struct HomeDataSourceWrapper: IdentifiableType, Equatable {
+    var model: MovieListEntryModel
+    
+    var identity: Int64 { model.id }
+    static func ==(lhs: HomeDataSourceWrapper,
+                   rhs: HomeDataSourceWrapper)-> Bool {
+        return lhs.model.id == rhs.model.id
+    }
 }
 
 class HomeViewController: UIViewController, Themed, UICollectionViewDelegateFlowLayout {
@@ -26,18 +32,21 @@ class HomeViewController: UIViewController, Themed, UICollectionViewDelegateFlow
     let disposeBag = DisposeBag()
     let viewModel: HomePageViewModelProtocol
     
-    let dataSource: RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, Movie>>
+    let dataSource: RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, HomeDataSourceWrapper>>
     
     init(with viewModel: HomePageViewModelProtocol) {
         self.viewModel = viewModel
-        self.dataSource = RxCollectionViewSectionedAnimatedDataSource(configureCell: { dataSource, collectionView, indexPath, movie in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostCollectionViewCell", for: indexPath) as! PostCollectionViewCell
-            cell.setup(show: movie)
+        self.dataSource = RxCollectionViewSectionedAnimatedDataSource(configureCell: { dataSource, collectionView, indexPath, wrapper in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(PostCollectionViewCell.self)", for: indexPath) as! PostCollectionViewCell
+            cell.setup(show: ShortTVShow(model: wrapper.model))
             cell.applyTheme()
             return cell
         })
         
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil,
+                   bundle: nil)
+        
+        tabBarItem.title = "Button"
     }
     
     required init?(coder: NSCoder) {
@@ -48,9 +57,9 @@ class HomeViewController: UIViewController, Themed, UICollectionViewDelegateFlow
         super.loadView()
         
         collectionView.register(
-            UINib(nibName: "PostCollectionViewCell",
+            UINib(nibName: "\(PostCollectionViewCell.self)",
                   bundle: Bundle(for: HomeViewController.self)
-            ), forCellWithReuseIdentifier: "PostCollectionViewCell")
+            ), forCellWithReuseIdentifier: "\(PostCollectionViewCell.self)")
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -111,9 +120,8 @@ class HomeViewController: UIViewController, Themed, UICollectionViewDelegateFlow
         ])).publish()
         
         Observable.merge(
-            states.capture(case: HomePageState.shows).map { movies, _ in
-                movies
-            },
+            states.capture(case: HomePageState.shows)
+                .map { $0.0 },
             Observable.merge(
                 states.capture(case: HomePageState.error).map { _, prevState in prevState },
                 states.capture(case: HomePageState.loading).map { _, prevState in prevState }
@@ -123,10 +131,13 @@ class HomeViewController: UIViewController, Themed, UICollectionViewDelegateFlow
                 }
                 return movies
             }
-        ).map { movies in
-            [AnimatableSectionModel(model: "", items: movies)]
+        )
+            .map { movies in movies.map(HomeDataSourceWrapper.init) }
+            .map { wrapper in
+                [AnimatableSectionModel(model: "",
+                                    items: wrapper)]
         }
-        .asDriverIgnoreError() // it will always perform on the main thread, ignore errors to keep the stream alive
+        .asDriverIgnoreError()
         .drive(collectionView.rx.items(dataSource: dataSource))
         .disposed(by: disposeBag)
             states.exclude(case: HomePageState.loading).toVoid()

@@ -9,12 +9,12 @@
 enum HomePageUIAction: EventProtocol {
     case reload
     case nextPage
-    case selectMovie(Movie)
+    case selectMovie(MovieListEntryModel)
 }
 
 enum HomePageModelAction: EventProtocol {
     case error(Error)
-    case loaded([Movie], page: Int)
+    case loaded([MovieListEntryModel], page: Int)
 }
 
 enum HomePageAction: EventProtocol {
