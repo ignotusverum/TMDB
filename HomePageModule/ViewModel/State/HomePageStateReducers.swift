@@ -39,9 +39,15 @@ class HomePageStateReducers {
                        action: HomePageModelAction)-> HomePageState {
         switch (state, action) {
         case (.emptyView, let .loaded(movies, page)),
-             (.error, let .loaded(movies, page)),
-             (.loading, let .loaded(movies, page)): return .shows(movies,
+             (.error(_, .emptyView), let .loaded(movies, page)),
+             (.loading(_, .emptyView), let .loaded(movies, page)): return .shows(movies,
                                                                   page: page)
+        case (let .error(_, previous), let .loaded(newMovies, page)),
+             (let .loading(_, previous), let .loaded(newMovies, page)):
+            guard case let .shows(movies, _) = previous else { return state }
+            return showsState(oldList: movies,
+                              newList: newMovies,
+                              page: page)
         case (let .shows(movies, _), let .loaded(newMovies, newPage)): return showsState(oldList: movies,
                                                                                          newList: newMovies,
                                                                                          page: newPage)
@@ -57,11 +63,14 @@ class HomePageStateReducers {
     }
 }
 
-func showsState(oldList: [Movie], newList: [Movie], page: Int) -> HomePageState {
+func showsState(oldList: [Movie],
+                newList: [Movie],
+                page: Int) -> HomePageState {
     var finalMovies = oldList + newList
-    if page == 0 {
+    if page == 1 {
         finalMovies = newList
     }
+    
     return .shows(finalMovies,
                   page: page)
 }

@@ -9,6 +9,8 @@
 import MERLin
 import HomePageModule
 
+typealias HomeEvents = HomePageEvents
+
 extension ModuleRoutingStep {
     static func discover(routingContext: String = "main") -> ModuleRoutingStep {
         let context = ModuleContext(

@@ -68,6 +68,8 @@
 		B2AACE7D23B54BB600C21825 /* HomePageStateReducers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AACE7C23B54BB600C21825 /* HomePageStateReducers.swift */; };
 		B2AACE7F23B5592400C21825 /* Weakify.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AACE7E23B5592400C21825 /* Weakify.swift */; };
 		B2AACE8223B55DF200C21825 /* ObservableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AACE8123B55DF200C21825 /* ObservableType.swift */; };
+		B2AACE8623B580E100C21825 /* HomePageRoutingListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AACE8523B580E100C21825 /* HomePageRoutingListener.swift */; };
+		B2AACE8823B581CF00C21825 /* MainRoutingListenerAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AACE8723B581CF00C21825 /* MainRoutingListenerAggregator.swift */; };
 		E4E6F1D24825F85A4BBD8E61 /* Pods_Modules_TMDBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12A378DF61899FF5E225712F /* Pods_Modules_TMDBFoundation.framework */; };
 		F7213D4BED739A17C60FFE5C /* Pods_TMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20733E4354CAB7CF0DBF5B9B /* Pods_TMDB.framework */; };
 /* End PBXBuildFile section */
@@ -199,6 +201,8 @@
 		B2AACE7C23B54BB600C21825 /* HomePageStateReducers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageStateReducers.swift; sourceTree = "<group>"; };
 		B2AACE7E23B5592400C21825 /* Weakify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weakify.swift; sourceTree = "<group>"; };
 		B2AACE8123B55DF200C21825 /* ObservableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableType.swift; sourceTree = "<group>"; };
+		B2AACE8523B580E100C21825 /* HomePageRoutingListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageRoutingListener.swift; sourceTree = "<group>"; };
+		B2AACE8723B581CF00C21825 /* MainRoutingListenerAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRoutingListenerAggregator.swift; sourceTree = "<group>"; };
 		CBEB141DDEB1E91140D1A22A /* Pods-Modules-TMDBFoundation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Modules-TMDBFoundation.debug.xcconfig"; path = "Target Support Files/Pods-Modules-TMDBFoundation/Pods-Modules-TMDBFoundation.debug.xcconfig"; sourceTree = "<group>"; };
 		D19A3646943CD07376BEB782 /* Pods-TMDB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB.debug.xcconfig"; path = "Target Support Files/Pods-TMDB/Pods-TMDB.debug.xcconfig"; sourceTree = "<group>"; };
 		E670B77807FB7F88B0AC92D8 /* Pods-Modules-DiscoverModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Modules-DiscoverModule.debug.xcconfig"; path = "Target Support Files/Pods-Modules-DiscoverModule/Pods-Modules-DiscoverModule.debug.xcconfig"; sourceTree = "<group>"; };
@@ -301,6 +305,7 @@
 		508FE5A5237DCB28007EF555 /* TMDB */ = {
 			isa = PBXGroup;
 			children = (
+				B2AACE8323B580C500C21825 /* EventsListeners */,
 				508FE5CD237DD01A007EF555 /* Router */,
 				508FE5A6237DCB28007EF555 /* AppDelegate.swift */,
 				508FE61E237DD7AE007EF555 /* ModuleManager.swift */,
@@ -466,6 +471,23 @@
 				B2AACE8123B55DF200C21825 /* ObservableType.swift */,
 			);
 			path = RxExtensions;
+			sourceTree = "<group>";
+		};
+		B2AACE8323B580C500C21825 /* EventsListeners */ = {
+			isa = PBXGroup;
+			children = (
+				B2AACE8423B580D200C21825 /* MainRoutingListeners */,
+				B2AACE8723B581CF00C21825 /* MainRoutingListenerAggregator.swift */,
+			);
+			path = EventsListeners;
+			sourceTree = "<group>";
+		};
+		B2AACE8423B580D200C21825 /* MainRoutingListeners */ = {
+			isa = PBXGroup;
+			children = (
+				B2AACE8523B580E100C21825 /* HomePageRoutingListener.swift */,
+			);
+			path = MainRoutingListeners;
 			sourceTree = "<group>";
 		};
 		B538ED97679B539B7BE94B19 /* Frameworks */ = {
@@ -767,7 +789,9 @@
 				508FE5D1237DD129007EF555 /* SearchHandler.swift in Sources */,
 				508FE61D237DD6AC007EF555 /* Theme.swift in Sources */,
 				508FE61F237DD7AE007EF555 /* ModuleManager.swift in Sources */,
+				B2AACE8623B580E100C21825 /* HomePageRoutingListener.swift in Sources */,
 				508FE5CF237DD025007EF555 /* AppRouter.swift in Sources */,
+				B2AACE8823B581CF00C21825 /* MainRoutingListenerAggregator.swift in Sources */,
 				5069201F239775490083ACDD /* DiscoverStep.swift in Sources */,
 				508FE61C237DD6AC007EF555 /* DarkTheme.swift in Sources */,
 			);

@@ -43,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         moduleManager = BaseModuleManager()
         router = AppRouter(withFactory: moduleManager)
         
+        let mainRoutingListener = MainRoutingListenerAggregator(withRouter: router)
+        moduleManager.addEventsListeners([mainRoutingListener])
+        
         window?.rootViewController = router.rootViewController(forLaunchOptions: launchOptions)
         window?.makeKeyAndVisible()
         

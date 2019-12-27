@@ -41,10 +41,11 @@ class HomePageViewModel: HomePageViewModelProtocol {
                                             Observable.merge(
                                                 Observable.merge(
                                                     input.capture(case: HomePageUIAction.reload).map { _ in 1 },
-                                                    input.capture(case: HomePageUIAction.nextPage).map { [weak me ] _-> Int in (me?.currentPage ?? 0) + 1 }
+                                                    input.capture(case: HomePageUIAction.nextPage).map { [weak me ] _ in (me?.currentPage ?? 0) + 1 }
                                                     )
                                                     .compactFlatMapLatest { [weak me] page in
-                                                        return me?.model.getMovies(page: page)
+                                                        me?.model.getMovies(page: page)
+                                                            .do(onSuccess: { _ in me?.currentPage = page })
                                                             .asObservable()
                                                             .catchError(sendTo: errors)
                                                             .map { ($0, page) }

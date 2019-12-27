@@ -6,12 +6,12 @@
 //  Copyright © 2019 MERLin Tech. All rights reserved.
 //
 
-enum HomePageEvents: EventProtocol {
+public enum HomePageEvents: EventProtocol {
     case movieSelected(Movie)
 }
 
-public class HomePageModule: ModuleProtocol {
-    var events: Observable<HomePageEvents> { return _events.asObservable() }
+public class HomePageModule: ModuleProtocol, EventsProducer {
+    public var events: Observable<HomePageEvents> { return _events.asObservable() }
     private var _events = PublishSubject<HomePageEvents>()
     
     public var context: ModuleContext
@@ -20,6 +20,7 @@ public class HomePageModule: ModuleProtocol {
         let viewModel = HomePageViewModel(model: model,
                                           events: _events)
         let viewController = HomeViewController(with: viewModel)
+        
         return viewController
     }
     

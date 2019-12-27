@@ -79,6 +79,7 @@ class HomeViewController: UIViewController, Themed, UICollectionViewDelegateFlow
     
     func bindViewModel() {
         let viewDidAppear = rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
+            .take(1)
             .toVoid()
         
           let pull = collectionView.refreshControl!.rx
@@ -100,9 +101,12 @@ class HomeViewController: UIViewController, Themed, UICollectionViewDelegateFlow
                             return false
                     }
                     return true
-            }.distinctUntilChanged()
+            }
+            .distinctUntilChanged()
                 .takeTrue()
                 .map { _ in HomePageUIAction.nextPage },
+            collectionView.rx.modelSelected(Movie.self)
+                .map(HomePageUIAction.selectMovie),
             reload
         ])).publish()
         
@@ -125,7 +129,6 @@ class HomeViewController: UIViewController, Themed, UICollectionViewDelegateFlow
         .asDriverIgnoreError() // it will always perform on the main thread, ignore errors to keep the stream alive
         .drive(collectionView.rx.items(dataSource: dataSource))
         .disposed(by: disposeBag)
-        
             states.exclude(case: HomePageState.loading).toVoid()
             .asDriverIgnoreError()
             .drive(onNext: { [weak self] _ in

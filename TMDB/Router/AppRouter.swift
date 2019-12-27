@@ -99,8 +99,6 @@ class AppRouter: Router {
     func hideLoadingView() { }
     
     fileprivate func navigationController(rootViewController: UIViewController, tabBarItem: UITabBarItem? = nil) -> UINavigationController {
-        // rootViewController.navigationItem.titleView = UIImageView(image: Asset.hudsonsBayLogo.image)
-        
         let navigationController = TMDBNavigationController(rootViewController: rootViewController)
         navigationController.viewControllersFactory = viewControllersFactory
         
